@@ -103,24 +103,53 @@
         </button>
       </div>
 
-      <!-- Transaction Boxes -->
-      <div id="transactionContainer" class="flex flex-col gap-4 mt-8">
-        <!-- Income Box Template -->
-        <!-- <div
+      <!-- View Transactions Button -->
+      <div class="text-center mt-6">
+        <button
+          type="button"
+          id="viewDetailsBtn"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5"
+        >
+          View All Transactions
+        </button>
+      </div>
+
+      <!-- Modal -->
+      <div
+        id="transactionModal"
+        class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+        style="display: none"
+      >
+        <div
+          class="bg-white rounded-2xl w-11/12 md:w-2/3 max-h-[80vh] overflow-y-auto p-6 relative"
+        >
+          <button
+            type="button"
+            id="closeModalBtn"
+            class="absolute top-4 right-4 text-white bg-red-500 hover:bg-red-600 font-bold px-3 py-1 rounded-lg"
+          >
+            Close
+          </button>
+          <h2 class="text-2xl font-bold mb-4 text-center">All Transactions</h2>
+          <div id="transactionContainer" class="flex flex-col gap-4">
+            <!-- Income Box Template -->
+            <!-- <div
           id="incomeBoxTemplate"
           class="bg-green-100/50 backdrop-blur-md rounded-xl p-4 flex justify-between shadow-inner text-green-800"
         >
           <p class="font-semibold">Income Example</p>
           <p class="font-semibold">$100</p>
         </div> -->
-        <!-- Expense Box Template -->
-        <!--  <div
+            <!-- Expense Box Template -->
+            <!--  <div
           id="expensesBoxTemplate"
           class="bg-red-100/50 backdrop-blur-md rounded-xl p-4 flex justify-between shadow-inner text-red-800"
         >
           <p class="font-semibold">Expense Example</p>
           <p class="font-semibold">$50</p>
         </div> -->
+          </div>
+        </div>
       </div>
     </div>
     <!-- js link -->

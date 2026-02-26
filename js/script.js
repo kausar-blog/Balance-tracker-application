@@ -7,18 +7,35 @@ const transactionAmount = document.getElementById("transactionAmount");
 const addBtn = document.getElementById("addBtn");
 const subtractBtn = document.getElementById("subtractBtn");
 const transactionContainer = document.getElementById("transactionContainer");
+const viewDetailsBtn = document.getElementById("viewDetailsBtn");
+const transactionModal = document.getElementById("transactionModal");
+const closeModalBtn = document.getElementById("closeModalBtn");
+const modalTransactionContainer = document.getElementById(
+  "modalTransactionContainer",
+);
 
 // Initialize totals
 let balance = 0;
 let income = 0;
 let expenses = 0;
+
+// Transaction array
+let transactions = []; // { details, amount, type }
+
+// Constants for type
+const TRANSACTION_TYPE = {
+  INCOME: "income",
+  EXPENSE: "expense",
+};
+
+// validate input
 function validateInputs() {
   const details = transactionDetails.value.trim();
   const amount = transactionAmount.value.trim();
 
   if (
     details === "" ||
-    details.length < 8 ||
+    details.length < 3 ||
     details.length > 50 ||
     !isNaN(details)
   ) {
@@ -34,61 +51,82 @@ function validateInputs() {
     transactionAmount.focus();
     return true;
   }
+  return false;
 }
 
-function addAmount() {
-  const details = transactionDetails.value;
-  const amount = transactionAmount.value;
-
-  balance += Number(amount);
-  income += Number(amount);
-  TotalBalanceAmount.innerHTML = balance;
-  incomeTotal.innerHTML = income;
-
+// Create transaction element
+function createTransaction(details, amount, type) {
   const div = document.createElement("div");
 
-  div.classList =
-    "bg-green-100/50 backdrop-blur-md rounded-xl p-4 flex justify-between shadow-inner text-green-800";
+  div.className =
+    type === TRANSACTION_TYPE.INCOME
+      ? "bg-green-100/50 backdrop-blur-md rounded-xl p-4 flex justify-between shadow-inner text-green-800"
+      : "bg-red-100/50 backdrop-blur-md rounded-xl p-4 flex justify-between shadow-inner text-red-800";
 
   div.innerHTML = `
     <p class="font-semibold">${details}</p>
-      <p class="font-semibold">${income}</p>
-    `;
+    <p class="font-semibold">$${amount.toFixed(2)}</p>
+  `;
 
-  console.log(div);
-  transactionContainer.appendChild(div);
+  return div;
+}
+
+// render transactions
+function renderMainTransactions() {
+  transactionContainer.innerHTML = "";
+  transactions.forEach((tx) => {
+    const div = createTransaction(tx.details, tx.amount, tx.type);
+    transactionContainer.appendChild(div);
+  });
+}
+
+// render transactions to modal
+function renderModalTransactions() {
+  modalTransactionContainer.innerHTML = "";
+  transactions.forEach((tx) => {
+    const div = createTransaction(tx.details, tx.amount, tx.type);
+    modalTransactionContainer.appendChild(div);
+  });
+}
+
+// add transaction
+function addAmount() {
+  const details = transactionDetails.value.trim();
+  const amount = Number(transactionAmount.value);
+
+  balance += amount;
+  income += amount;
+
+  TotalBalanceAmount.textContent = balance.toFixed(2);
+  incomeTotal.textContent = income.toFixed(2);
+
+  transactions.push({ details, amount, type: TRANSACTION_TYPE.INCOME });
+
+  renderMainTransactions();
 
   transactionDetails.value = "";
   transactionAmount.value = "";
 }
 
 function subtractAmount() {
-  const details = transactionDetails.value;
-  const amount = transactionAmount.value;
+  const details = transactionDetails.value.trim();
+  const amount = Number(transactionAmount.value);
 
-  if (Number(transactionAmount.value) > balance) {
+  if (amount > balance) {
     alert(`Insufficient balance! Available balance: $${balance.toFixed(2)}.`);
     transactionAmount.focus();
     return;
   }
 
-  balance -= Number(amount);
-  expenses += Number(amount);
+  balance -= amount;
+  expenses += amount;
 
-  TotalBalanceAmount.innerHTML = balance;
-  expensesTotal.innerHTML = expenses;
+  TotalBalanceAmount.textContent = balance.toFixed(2);
+  expensesTotal.textContent = expenses.toFixed(2);
 
-  const div = document.createElement("div");
+  transactions.push({ details, amount, type: TRANSACTION_TYPE.EXPENSE });
 
-  div.classList =
-    "bg-red-100/50 backdrop-blur-md rounded-xl p-4 flex justify-between shadow-inner text-red-800";
-
-  div.innerHTML = `
-    <p class="font-semibold">${details}</p>
-      <p class="font-semibold">${expenses}</p>
-    `;
-
-  transactionContainer.appendChild(div);
+  renderMainTransactions();
 
   transactionDetails.value = "";
   transactionAmount.value = "";
@@ -102,4 +140,13 @@ addBtn.addEventListener("click", () => {
 subtractBtn.addEventListener("click", () => {
   if (validateInputs()) return;
   subtractAmount();
+});
+
+viewDetailsBtn.addEventListener("click", () => {
+  transactionModal.style.display = "flex";
+  renderModalTransactions();
+});
+
+closeModalBtn.addEventListener("click", () => {
+  transactionModal.style.display = "none";
 });
