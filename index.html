@@ -70,11 +70,13 @@
       <!-- Inputs -->
       <div class="flex flex-col gap-4 mt-8">
         <input
+          id="transactionDetails"
           type="text"
           placeholder="Transaction Details"
           class="p-4 rounded-xl border border-white/30 bg-white/20 placeholder-white/70 text-white focus:ring-2 focus:ring-purple-300 focus:outline-none transition duration-300"
         />
         <input
+          id="transactionAmount"
           type="number"
           placeholder="0.00"
           class="p-4 rounded-xl border border-white/30 bg-white/20 placeholder-white/70 text-white focus:ring-2 focus:ring-purple-300 focus:outline-none transition duration-300"
@@ -84,11 +86,15 @@
       <!-- Buttons -->
       <div class="flex justify-center gap-6 mt-6">
         <button
+          id="addBtn"
+          type="button"
           class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transform hover:-translate-y-1 transition-all duration-300"
         >
           Add Transaction
         </button>
         <button
+          id="subtractBtn"
+          type="button"
           class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transform hover:-translate-y-1 transition-all duration-300"
         >
           Subtract Transaction
@@ -96,9 +102,10 @@
       </div>
 
       <!-- Transaction Boxes -->
-      <div class="flex flex-col gap-4 mt-8">
+      <div id="transactionContainer" class="flex flex-col gap-4 mt-8">
         <!-- Income Box Template -->
         <div
+          id="incomeBoxTemplate"
           class="bg-green-100/50 backdrop-blur-md rounded-xl p-4 flex justify-between shadow-inner text-green-800"
         >
           <p class="font-semibold">Income Example</p>
@@ -106,6 +113,7 @@
         </div>
         <!-- Expense Box Template -->
         <div
+          id="expensesBoxTemplate"
           class="bg-red-100/50 backdrop-blur-md rounded-xl p-4 flex justify-between shadow-inner text-red-800"
         >
           <p class="font-semibold">Expense Example</p>
@@ -113,5 +121,7 @@
         </div>
       </div>
     </div>
+    <!-- js link -->
+    <script src="./js/script.js"></script>
   </body>
 </html>
